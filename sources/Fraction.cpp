@@ -80,56 +80,83 @@ ariel::Fraction ariel::operator+(float float_number, const Fraction &fraction)
     return ariel::Fraction(float_number) + fraction;
 }
 
-ariel::Fraction ariel::Fraction::operator-(const Fraction &fraction)
-{
-    long long newNum = (long long)(numerator * fraction.denominator) - (long long)(fraction.numerator * denominator);
-    long long newDenom = (long long)(denominator) * (long long)(fraction.denominator);
-
-    if (newNum > global_maximum || newNum < global_minimum || newDenom > global_maximum || newDenom < global_minimum)
+    // Subtract two fractions.
+    // Returns a new fraction that is the result of the subtraction.
+    // Throws an exception if the result overflows.
+    Fraction Fraction::operator-(const Fraction &fraction)
     {
-        throw std::overflow_error(" you have overflow !!!! ");
+        // Calculate the new numerator and denominator.
+        long long newNum = (long long)(numerator * fraction.denominator) - (long long)(fraction.numerator * denominator);
+        long long newDenom = (long long)(denominator) * (long long)(fraction.denominator);
+    
+        // Check for overflow.
+        if (newNum > global_maximum || newNum < global_minimum || newDenom > global_maximum || newDenom < global_minimum)
+        {
+            throw std::overflow_error(" you have overflow !!!! ");
+        }
+    
+        // Create and return the new fraction.
+        return ariel::Fraction(newNum, newDenom);
     }
-    return ariel::Fraction(newNum, newDenom);
-}
 
-ariel::Fraction ariel::Fraction::operator-(float float_number)
-{
-    return (*(this)) - ariel::Fraction(float_number);
-}
-
-ariel::Fraction ariel::operator-(float float_number, const Fraction &fraction)
-{
-    return ariel::Fraction(float_number) - fraction;
-}
-
-ariel::Fraction Fraction::operator*(const Fraction &fraction)
-{
-    long long newNum = (long long)(numerator) * (long long)(fraction.numerator);
-    long long newDenom = (long long)(denominator) * (long long)(fraction.denominator);
-    if (newNum > global_maximum || newNum < global_minimum || newDenom > global_maximum || newDenom < global_minimum)
+    // Subtract a fraction from a floating point number.
+    // Returns a new fraction that is the result of the subtraction.
+    Fraction Fraction::operator-(float float_number)
     {
-        throw std::overflow_error(" you have overflow !!!!");
+        return (*(this)) - ariel::Fraction(float_number);
     }
-    return ariel::Fraction(newNum, newDenom);
-}
-ariel::Fraction ariel::Fraction::operator*(float float_number)
-{
-    return (*(this)) * ariel::Fraction(float_number);
-}
 
-ariel::Fraction ariel::operator*(float float_number, const Fraction &fraction)
-{
-    return ariel::Fraction(float_number) * fraction;
-}
-
-ariel::Fraction ariel::Fraction::operator/(const Fraction &fraction)
-{
-    if (!fraction.numerator)
+    // Subtract a fraction from a floating point number.
+    // Returns a new fraction that is the result of the subtraction.
+    Fraction operator-(float float_number, const Fraction &fraction)
     {
-        throw std::runtime_error(" you divide by 0 !!!");
+        return ariel::Fraction(float_number) - fraction;
     }
-    return (*(this)) * ariel::Fraction(fraction.denominator, fraction.numerator);
-}
+
+    // Multiply two fractions.
+    // Returns a new fraction that is the result of the multiplication.
+    // Throws an exception if the result overflows.
+    Fraction Fraction::operator*(const Fraction &fraction)
+    {
+        // Calculate the new numerator and denominator.
+        long long newNum = (long long)(numerator) * (long long)(fraction.numerator);
+        long long newDenom = (long long)(denominator) * (long long)(fraction.denominator);
+    
+        // Check for overflow.
+        if (newNum > global_maximum || newNum < global_minimum || newDenom > global_maximum || newDenom < global_minimum)
+        {
+            throw std::overflow_error(" you have overflow !!!!");
+        }
+    
+        // Create and return the new fraction.
+        return ariel::Fraction(newNum, newDenom);
+    }
+
+    // Multiply a fraction by a floating point number.
+    // Returns a new fraction that is the result of the multiplication.
+    Fraction Fraction::operator*(float float_number)
+    {
+        return (*(this)) * ariel::Fraction(float_number);
+    }
+
+    // Multiply a floating point number by a fraction.
+    // Returns a new fraction that is the result of the multiplication.
+    Fraction operator*(float float_number, const Fraction &fraction)
+    {
+        return ariel::Fraction(float_number) * fraction;
+    }
+
+    // Divide a fraction by another fraction.
+    // Returns a new fraction that is the result of the division.
+    // Throws an exception if the denominator is zero.
+    Fraction Fraction::operator/(const Fraction &fraction)
+    {
+        if (!fraction.numerator)
+        {
+            throw std::runtime_error(" you divide by 0 !!!");
+        }
+        return (*(this)) * ariel::Fraction(fraction.denominator, fraction.numerator);
+    }
 
 ariel::Fraction ariel::Fraction::operator/(float float_number)
 {
