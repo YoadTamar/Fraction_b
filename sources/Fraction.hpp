@@ -22,8 +22,16 @@ namespace ariel {
         Fraction(float); 
 
         // getter functions
-        int getNumerator() const;  
-        int getDenominator() const;  
+        int getNumerator() const
+        {
+            return numerator;
+        }
+
+        int getDenominator() const
+        {
+            return denominator;
+        }
+
 
         // arithmetic operators
         Fraction operator+(const Fraction &); 
