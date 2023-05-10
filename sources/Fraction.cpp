@@ -29,7 +29,7 @@ ariel::Fraction::Fraction(int x, int y) : numerator(x), denominator(y)
     }
     else
     {
-        // Check if the numerator and denominator are equal to the global maximum or minimum values
+        // Check if the numerator and denominator are equal to the maximum or minimum  int values
         // If they are, set the numerator and denominator to 1 or -1 accordingly
         if ((x == global_maximum && y == global_maximum) || (x == global_minimum && y == global_minimum))
         {
